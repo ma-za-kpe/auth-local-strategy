@@ -1,51 +1,34 @@
+// Bring Mongoose into the app 
 var mongoose = require('mongoose');
-//var uri = 'mongodb://localhost:27017/Outbox';
-// var uri = 'mongodb://okello:123456789okello@ds245132.mlab.com:45132/outbox';
-// mongoose.connect(uri, {
-//   useNewUrlParser: true
-// });
 
-module.exports = {
-    'JWT_SECRET': 'outboxsecretkey***',
-    'JTW_EXPT_TIME': '2m'
-};
+// Build the connection string 
+var dbURI = 'mongodb://localhost:27017/auth';
 
-//Listen to mongoose events
+// Create the database connection 
+mongoose.connect(process.env.MONGODB_URI || dbURI);
 
+// CONNECTION EVENTS
+// When successfully connected
 mongoose.connection.on('connected', function () {
-    console.log('Mongoose connected to ' + uri);
+    console.log('Mongoose default connection open to ' + dbURI);
 });
 
+// If the connection throws an error
 mongoose.connection.on('error', function (err) {
-    console.log('Mongoose connection error: ' + err);
+    console.log('Mongoose default connection error: ' + err);
 });
+// When the connection is disconnected
 mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose disconnected');
+    console.log('Mongoose default connection disconnected');
 });
-gracefulShutdown = function (msg, callback) {
-    mongoose.connection.close(function () {
-        console.log('Mongoose disconnected through ' + msg);
-        callback();
-    });
-};
-// For nodemon restarts
-process.once('SIGUSR2', function () {
-    gracefulShutdown('nodemon restart', function () {
-        process.kill(process.pid, 'SIGUSR2');
-    });
-});
-// For app termination
-process.on('SIGINT', function () {
-    gracefulShutdown('app termination', function () {
-        process.exit(0);
-    });
-});
-// For Heroku app termination
-process.on('SIGTERM', function () {
-    gracefulShutdown('Heroku app shutdown', function () {
-        process.exit(0);
-    });
-})
 
-//require the Schema file
-require('../models/users');
+// If the Node process ends, close the Mongoose connection 
+process.on('SIGINT', function () {
+    mongoose.connection.close(function () {
+        console.log('Mongoose default connection disconnected through app termination');
+        process.exit(0);
+    });
+});
+
+// BRING IN YOUR SCHEMAS & MODELS 
+require('../models/user');  

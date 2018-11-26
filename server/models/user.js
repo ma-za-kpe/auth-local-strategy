@@ -52,16 +52,16 @@ userSchema.pre('save', function (next) {
     });
 });
 
-//methods
+// //methods
 
-userSchema.methods.verifyPassword = function (password) {
-    try {
-        return bcrypt.compareSync(password, this.password);
-    }
-    catch (err) {
-        throw err;
-    }
-};
+// userSchema.methods.verifyPassword = function (password) {
+//     try {
+//         return bcrypt.compareSync(password, this.password);
+//     }
+//     catch (err) {
+//         throw err;
+//     }
+// };
 
 
 // userSchema.methods.generatejwt = () => {
