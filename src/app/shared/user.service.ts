@@ -6,6 +6,7 @@ import * as config from '../config/server.json';
 import { isDevMode } from '@angular/core';
 
 let addr = (<any>config).live_server;
+
 if (isDevMode()) {
   // dev code
   addr = (<any>config).local_server;
@@ -20,6 +21,7 @@ if (isDevMode()) {
   providedIn: 'root'
 })
 export class UserService {
+
 
   constructor(private http: Http, private router: Router) { }
 
