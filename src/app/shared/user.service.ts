@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import * as config from '../config/server.json';
 import { isDevMode } from '@angular/core';
 
-let addr = (<any>config).live_server;
+// let addr = (<any>config).live_server;
 
 // if (isDevMode()) {
 //   // dev code
@@ -21,13 +21,13 @@ let addr = (<any>config).live_server;
   providedIn: 'root'
 })
 export class UserService {
-
+  private addr = '/api/';
 
   constructor(private http: Http, private router: Router) { }
 
   // get("/api/users/userReg")
   getUser(): Promise<void | User[]> {
-    return this.http.get(addr + '/users/userReg')
+    return this.http.get(this.addr + '/users/userReg')
       .toPromise()
       .then(response => response.json() as User[])
       .catch(this.handleError);
@@ -36,7 +36,7 @@ export class UserService {
 
   // post("/api/users/register")
   createUser(newUser: User): Promise<void | User> {
-    return this.http.post(addr + '/users/register', newUser)
+    return this.http.post(this.addr + '/users/register', newUser)
       .toPromise()
       .then(response => response.json() as User)
       .then(() => {
@@ -50,7 +50,7 @@ export class UserService {
 
   // delete("/api/contacts/:id")
   deleteUser(delUserId: String): Promise<void | String> {
-    return this.http.delete(addr + '/' + delUserId)
+    return this.http.delete(this.addr + '/' + delUserId)
       .toPromise()
       .then(response => response.json() as String)
       .catch(this.handleError);
@@ -58,7 +58,7 @@ export class UserService {
 
   // put("/api/contacts/:id")
   updateUser(putUser: User): Promise<void | User> {
-    var putUrl = addr + '/' + putUser._id;
+    var putUrl = this.addr + '/' + putUser._id;
     return this.http.put(putUrl, putUser)
       .toPromise()
       .then(response => response.json() as User)
