@@ -7,6 +7,11 @@ var dbURI = 'mongodb://localhost:27017/auth';
 // Create the database connection 
 mongoose.connect(process.env.MONGODB_URI || dbURI);
 
+module.exports = {
+    'JWT_SECRET': 'makusecretkey***',
+    'JTW_EXPT_TIME': '2m'
+};
+
 // CONNECTION EVENTS
 // When successfully connected
 mongoose.connection.on('connected', function () {

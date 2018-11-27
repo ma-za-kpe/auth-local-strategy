@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+const config = require('../config/db');
+
 const userSchema = new mongoose.Schema({
 
     firstname: {
@@ -52,22 +54,26 @@ userSchema.pre('save', function (next) {
     });
 });
 
-// //methods
+//methods
 
-// userSchema.methods.verifyPassword = function (password) {
-//     try {
-//         return bcrypt.compareSync(password, this.password);
-//     }
-//     catch (err) {
-//         throw err;
-//     }
-// };
+userSchema.methods.verifyPassword = function (password) {
+    try {
+        return bcrypt.compareSync(password, this.password);
+    }
+    catch (err) {
+        throw err;
+    }
+};
 
 
-// userSchema.methods.generatejwt = () => {
-//     //pass in the second part == payload in our case its the user details...
-//     return jwt.sign({ _id: this._id }, config.JWT_SECRET);
-// }
+userSchema.methods.generatejwt = () => {
+    //pass in the second part == payload in our case its the user details...
+    return jwt.sign({ _id: this._id },
+        config.JWT_SECRET,
+        {
+            expiresIn: process.env.JTW_EXPT_TIME
+        });
+}
 
 module.exports = mongoose.model('User', userSchema, 'auth');
 // exports.personSchema = {personSchema};

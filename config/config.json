@@ -1,0 +1,13 @@
+{
+  "development": {
+    "PORT": 8080,
+    "MONGO_URI": "mongodb://localhost:27017/auth",
+    "JWT_SECRET": "makusecretkey***",
+    "JTW_EXPT_TIME": "2m"
+  },
+  "production": {
+    "PORT": 59079,
+    "JWT_SECRET": "makusecretkey***",
+    "JTW_EXPT_TIME": "2m"
+  }
+}
