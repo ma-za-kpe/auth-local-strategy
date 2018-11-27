@@ -1,0 +1,5 @@
+{
+  "local_server": "http://localhost:8080/api",
+  "live_server": "http://young-peak-56850.herokuapp.com/api",
+  "back_server": "/api"
+}

@@ -29,7 +29,8 @@ router.post('/register', (req, res, next) => {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    phoneNumber: req.body.phoneNumber
   });
   addUserReg.save((err, doc) => {
     if (!err) {

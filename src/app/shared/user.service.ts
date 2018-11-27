@@ -1,29 +1,45 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Http, Response } from '@angular/http';
+import { Router } from "@angular/router";
+import * as config from '../config/server.json';
+import { isDevMode } from '@angular/core';
+
+let addr = (<any>config).live_server;
+if (isDevMode()) {
+  // dev code
+  addr = (<any>config).local_server;
+  console.log('development');
+} else {
+  // production code
+  addr = (<any>config).live_server;
+  console.log('live');
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private usersUrl = '/api/users';
-
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
 
   // get("/api/users/userReg")
-  getContacts(): Promise<void | User[]> {
-    return this.http.get(this.usersUrl + '/userReg')
+  getUser(): Promise<void | User[]> {
+    return this.http.get(addr + '/users/userReg')
       .toPromise()
       .then(response => response.json() as User[])
       .catch(this.handleError);
   }
 
+
   // post("/api/users/register")
-  createContact(newUser: User): Promise<void | User> {
-    return this.http.post(this.usersUrl, newUser)
+  createUser(newUser: User): Promise<void | User> {
+    return this.http.post(addr + '/users/register', newUser)
       .toPromise()
       .then(response => response.json() as User)
+      .then(() => {
+        this.router.navigate(['/users/login']);
+      })
       .catch(this.handleError);
   }
 
@@ -31,16 +47,16 @@ export class UserService {
 
 
   // delete("/api/contacts/:id")
-  deleteContact(delUserId: String): Promise<void | String> {
-    return this.http.delete(this.usersUrl + '/' + delUserId)
+  deleteUser(delUserId: String): Promise<void | String> {
+    return this.http.delete(addr + '/' + delUserId)
       .toPromise()
       .then(response => response.json() as String)
       .catch(this.handleError);
   }
 
   // put("/api/contacts/:id")
-  updateContact(putUser: User): Promise<void | User> {
-    var putUrl = this.usersUrl + '/' + putUser._id;
+  updateUser(putUser: User): Promise<void | User> {
+    var putUrl = addr + '/' + putUser._id;
     return this.http.put(putUrl, putUser)
       .toPromise()
       .then(response => response.json() as User)
