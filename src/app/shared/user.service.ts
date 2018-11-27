@@ -21,7 +21,7 @@ import { isDevMode } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-  private addr = '/api/';
+  private addr = '/api';
 
   constructor(private http: Http, private router: Router) { }
 
