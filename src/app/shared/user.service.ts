@@ -5,23 +5,23 @@ import { Router, ActivatedRoute } from "@angular/router";
 import * as config from '../config/server.json';
 import { isDevMode } from '@angular/core';
 
-// let addr = (<any>config).live_server;
+let addr = (<any>config).live_server;
 
-// if (isDevMode()) {
-//   // dev code
-//   addr = (<any>config).local_server;
-//   console.log('development');
-// } else {
-//   // production code
-//   addr = (<any>config).live_server;
-//   console.log('live');
-// }
+if (isDevMode()) {
+  // dev code
+  addr = (<any>config).local_server;
+  console.log('development');
+} else {
+  // production code
+  addr = (<any>config).live_server;
+  console.log('live');
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private addrr = '/api';
+  // private addrr = '/api';
   return: string = '';
   token: string;
 
@@ -35,7 +35,7 @@ export class UserService {
 
   // get("/api/users/userReg")
   getUser(): Promise<void | User[]> {
-    return this.http.get(this.addrr + '/users/userReg')
+    return this.http.get(addr + '/users/userReg')
       .toPromise()
       .then(response => response.json() as User[])
       .catch(this.handleError);
@@ -44,7 +44,7 @@ export class UserService {
 
   // post("/api/users/register")
   createUser(newUser: User): Promise<void | User> {
-    return this.http.post(this.addrr + '/users/register', newUser)
+    return this.http.post(addr + '/users/register', newUser)
       .toPromise()
       .then(response => response.json() as User)
       .then(() => {
@@ -56,13 +56,13 @@ export class UserService {
   //login
   login(authCridentials: User): Promise<void | User> {
 
-    return this.http.post(this.addrr + '/users/authenticate', authCridentials)
+    return this.http.post(addr + '/users/authenticate', authCridentials)
       .toPromise()
       .then(response => response.json() as User)
       .then((respond) => {
         this.setToken(respond['token']);
-        // this.router.navigate(['/home']);
-        this.router.navigate([this.return]);
+        this.router.navigate(['/home']);
+        // this.router.navigate([this.return]);
       })
       .catch(this.handleError);
   }
@@ -104,7 +104,7 @@ export class UserService {
 
   // delete("/api/contacts/:id")
   deleteUser(delUserId: String): Promise<void | String> {
-    return this.http.delete(this.addrr + '/' + delUserId)
+    return this.http.delete(addr + '/' + delUserId)
       .toPromise()
       .then(response => response.json() as String)
       .catch(this.handleError);
@@ -112,7 +112,7 @@ export class UserService {
 
   // put("/api/contacts/:id")
   updateUser(putUser: User): Promise<void | User> {
-    var putUrl = this.addrr + '/' + putUser._id;
+    var putUrl = addr + '/' + putUser._id;
     return this.http.put(putUrl, putUser)
       .toPromise()
       .then(response => response.json() as User)
