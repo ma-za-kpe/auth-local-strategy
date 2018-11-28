@@ -18,10 +18,6 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/users/login']);
       this.userService.deleteToke();
       return false;
-    } else {
-      // Navigate to the user-pofile page with extras
-      this.router.navigate(['/users/userprofile']);
-      return true;
     }
     return true;
   }
