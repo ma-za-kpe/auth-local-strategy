@@ -1,13 +1,17 @@
 <!-- Default form login -->
-<form class="text-center border border-light p-5 w-responsive text-center mx-auto p-3 mt-2">
+<form class="text-center border border-light p-5 w-responsive text-center mx-auto p-3 mt-2" #signInForm="ngForm"
+  (ngSubmit)="signIn(signInForm)">
+
 
   <p class="h4 mb-4">Sign in</p>
 
   <!-- Email -->
-  <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+  <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" [(ngModel)]="model.email" placeholder="E-mail"
+    required>
 
   <!-- Password -->
-  <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+  <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" [(ngModel)]="model.password"
+    placeholder="Password" required>
 
   <div class="d-flex justify-content-around">
     <div>
@@ -28,7 +32,7 @@
 
   <!-- Register -->
   <p>Not a member?
-    <a href="">Register</a>
+    <a href="" routerLink="/users/logout">Register</a>
   </p>
 
   <!-- Social login -->

@@ -45,6 +45,20 @@ export class UserService {
       .catch(this.handleError);
   }
 
+  login(authCridentials: User): Promise<void | User> {
+    return this.http.post(this.addr + '/authenticate', authCridentials)
+      .toPromise()
+      .then(response => response.json() as User)
+      .then(() => {
+        this.router.navigate(['/home']);
+      })
+      .catch(this.handleError);
+  }
+
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
   // get("/api/contacts/:id") endpoint not used by Angular app
 
 
