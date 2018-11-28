@@ -9,6 +9,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
+import { AuthGuard } from '../auth/auth.guard';
+
 @NgModule({
   declarations: [SignUpComponent, SignInComponent, UserProfileComponent],
   imports: [
@@ -18,6 +20,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule
-  ]
+  ],
+  providers: [AuthGuard]
 })
 export class UsersModule { }
