@@ -22,6 +22,7 @@ import { isDevMode } from '@angular/core';
 })
 export class UserService {
   private addr = '/api';
+  token: string;
 
   constructor(private http: Http, private router: Router) { }
 
@@ -46,10 +47,12 @@ export class UserService {
   }
 
   login(authCridentials: User): Promise<void | User> {
+
     return this.http.post(this.addr + '/authenticate', authCridentials)
       .toPromise()
       .then(response => response.json() as User)
       .then(() => {
+        localStorage.setItem('token', this.token);
         this.router.navigate(['/home']);
       })
       .catch(this.handleError);
