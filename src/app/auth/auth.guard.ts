@@ -7,11 +7,11 @@ import { Router } from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivateChild {
+export class AuthGuard implements CanActivate {
 
   constructor(public userService: UserService, private router: Router) { }
 
-  canActivateChild(
+  canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
     if (!this.userService.isLoggedIn()) {
