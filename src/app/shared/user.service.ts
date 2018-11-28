@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from './user';
 import { Http, Response } from '@angular/http';
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import * as config from '../config/server.json';
 import { isDevMode } from '@angular/core';
 
@@ -21,13 +21,21 @@ import { isDevMode } from '@angular/core';
   providedIn: 'root'
 })
 export class UserService {
-  private addr = '/api';
+  private addrr = '/api';
+  return: string = '';
+  token: string;
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private http: Http, private router: Router, private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    // Get the query params
+    this.route.queryParams
+      .subscribe(params => this.return = params['return'] || '/home');
+  }
 
   // get("/api/users/userReg")
   getUser(): Promise<void | User[]> {
-    return this.http.get(this.addr + '/users/userReg')
+    return this.http.get(this.addrr + '/users/userReg')
       .toPromise()
       .then(response => response.json() as User[])
       .catch(this.handleError);
@@ -36,7 +44,7 @@ export class UserService {
 
   // post("/api/users/register")
   createUser(newUser: User): Promise<void | User> {
-    return this.http.post(this.addr + '/users/register', newUser)
+    return this.http.post(this.addrr + '/users/register', newUser)
       .toPromise()
       .then(response => response.json() as User)
       .then(() => {
@@ -48,17 +56,23 @@ export class UserService {
   //login
   login(authCridentials: User): Promise<void | User> {
 
-    return this.http.post(this.addr + '/users/authenticate', authCridentials)
+    return this.http.post(this.addrr + '/users/authenticate', authCridentials)
       .toPromise()
       .then(response => response.json() as User)
       .then((respond) => {
         this.setToken(respond['token']);
-        this.router.navigate(['/home']);
+        // this.router.navigate(['/home']);
+        this.router.navigate([this.return]);
       })
       .catch(this.handleError);
   }
 
-  setToken(token: string) {
+  logout() {
+    this.token = null;
+    localStorage.clear();
+  }
+
+  setToken(token) {
     localStorage.setItem('token', token);
   }
 
@@ -90,7 +104,7 @@ export class UserService {
 
   // delete("/api/contacts/:id")
   deleteUser(delUserId: String): Promise<void | String> {
-    return this.http.delete(this.addr + '/' + delUserId)
+    return this.http.delete(this.addrr + '/' + delUserId)
       .toPromise()
       .then(response => response.json() as String)
       .catch(this.handleError);
@@ -98,7 +112,7 @@ export class UserService {
 
   // put("/api/contacts/:id")
   updateUser(putUser: User): Promise<void | User> {
-    var putUrl = this.addr + '/' + putUser._id;
+    var putUrl = this.addrr + '/' + putUser._id;
     return this.http.put(putUrl, putUser)
       .toPromise()
       .then(response => response.json() as User)

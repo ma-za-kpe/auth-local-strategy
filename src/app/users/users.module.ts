@@ -7,12 +7,11 @@ import { HttpModule } from '@angular/http';
 import { UsersRoutingModule } from './users-routing.module';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { AuthGuard } from '../auth/auth.guard';
 
 @NgModule({
-  declarations: [SignUpComponent, SignInComponent, UserProfileComponent],
+  declarations: [SignUpComponent, SignInComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

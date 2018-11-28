@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
@@ -15,6 +16,7 @@ import { AuthGuard } from './auth/auth.guard';
 @NgModule({
   declarations: [
     AppComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
