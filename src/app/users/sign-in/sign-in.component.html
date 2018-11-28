@@ -6,11 +6,11 @@
   <p class="h4 mb-4">Sign in</p>
 
   <!-- Email -->
-  <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" [(ngModel)]="model.email" placeholder="E-mail"
-    required>
+  <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" [(ngModel)]="model.email" name="email"
+    placeholder="E-mail" required>
 
   <!-- Password -->
-  <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" [(ngModel)]="model.password"
+  <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" [(ngModel)]="model.password" name="password"
     placeholder="Password" required>
 
   <div class="d-flex justify-content-around">
