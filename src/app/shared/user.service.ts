@@ -48,7 +48,7 @@ export class UserService {
 
   login(authCridentials: User): Promise<void | User> {
 
-    return this.http.post(this.addr + '/authenticate', authCridentials)
+    return this.http.post(this.addr + '/users/authenticate', authCridentials)
       .toPromise()
       .then(response => response.json() as User)
       .then(() => {
