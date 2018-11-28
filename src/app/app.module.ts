@@ -10,11 +10,11 @@ import { AppComponent } from './app.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { UserService } from './shared/user.service';
-
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +25,7 @@ import { UserService } from './shared/user.service';
     HttpClientModule,
     HttpModule
   ],
-  providers: [UserService],
+  providers: [UserService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

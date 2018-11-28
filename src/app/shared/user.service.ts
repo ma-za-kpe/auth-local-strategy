@@ -53,7 +53,6 @@ export class UserService {
       .then(response => response.json() as User)
       .then((respond) => {
         this.setToken(respond['token']);
-        //localStorage.setItem('token', this.token);
         this.router.navigate(['/home']);
       })
       .catch(this.handleError);
@@ -61,6 +60,29 @@ export class UserService {
 
   setToken(token: string) {
     localStorage.setItem('token', token);
+  }
+
+  deleteToke() {
+    localStorage.removeItem('token');
+  }
+
+  getUserPayLoad() {
+    var token = localStorage.getItem('token');
+    if (token) {
+      var UserPayLoad = atob(token.split('.')[1]);
+      return JSON.parse(UserPayLoad)
+    } else {
+      return null;
+    }
+  }
+
+  isLoggedIn() {
+    var UserPayLoad = this.getUserPayLoad();
+    if (UserPayLoad) {
+      return UserPayLoad.exp > Date.now() / 1000;
+    } else {
+      return false;
+    }
   }
 
   // get("/api/contacts/:id") endpoint not used by Angular app
